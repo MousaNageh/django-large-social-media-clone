@@ -1,0 +1,33 @@
+stages:
+  - deploy
+
+social_clone:
+  stage: deploy
+  image: ubuntu
+  tags: [docker]
+  before_script:
+    - eval $(ssh-agent -s)
+    - mkdir -p ~/.ssh
+    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+    - echo $ID_ED25519 > ~/.ssh/id_ed25519.pub
+    - apt-get update -y
+    - apt-get install -y sshpass
+  script:
+    # commands
+    - echo $CI_COMMIT_BRANCH
+    - if [ "$CI_COMMIT_BRANCH" == "main" ]; then AZ_DOMAIN="$AZ_DOMAIN_MAIN"; else AZ_DOMAIN="$AZ_DOMAIN_DEV"; fi
+    - if [ "$CI_COMMIT_BRANCH" == "main" ]; then AZ_ENV=".env.prod"; else AZ_ENV=".env.dev"; fi
+    - echo ${AZ_DOMAIN}
+    - echo ${AZ_ENV}
+    - sshpass -p $AZ_SSH_PASSWORD ssh $AZ_USERNAME@${AZ_DOMAIN} "ls -la"
+    - sshpass -p $AZ_SSH_PASSWORD ssh $AZ_USERNAME@${AZ_DOMAIN} "cd social-media-clone && git pull origin $CI_COMMIT_BRANCH"
+    - sshpass -p $AZ_SSH_PASSWORD ssh $AZ_USERNAME@${AZ_DOMAIN} "sudo cat ~/social-media-clone/env_files/${AZ_ENV} > ~/social-media-clone/.env"
+    - sshpass -p $AZ_SSH_PASSWORD ssh $AZ_USERNAME@${AZ_DOMAIN} "sudo docker image prune -a -f"
+    - sshpass -p $AZ_SSH_PASSWORD ssh $AZ_USERNAME@${AZ_DOMAIN} "sudo docker-compose -f ~/social-media-clone/docker-compose.yml up --build -d"
+#    - sshpass -p $AZ_SSH_PASSWORD ssh $AZ_USERNAME@${AZ_DOMAIN} "sudo service nginx restart all && sudo docker ps"
+
+  only:
+    refs:
+    # The only allowed branches to use this CI/CD script
+      - main
+      - dev
