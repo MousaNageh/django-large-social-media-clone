@@ -13,7 +13,10 @@ defaults:
 
 jobs:
   merge_request_to_dev_pipline:
-    runs-on: ubuntu-latest
+#    runs-on: ubuntu-latest
+    runs-on :
+      - self-hosted
+      - evstal-local-pc-label
     steps:
       - name: Checkout the repo
         uses: actions/checkout@v2
