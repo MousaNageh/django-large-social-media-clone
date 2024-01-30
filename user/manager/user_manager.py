@@ -6,13 +6,13 @@ class UserManager(BaseUserManager):
 
     def create_user(self, email, password, **extra_fields):
         """Creates and saves a new user"""
-        if not extra_fields.get('first_name'):
+        if not extra_fields.get("first_name"):
             raise ValueError(_("First name must be set"))
 
-        if not extra_fields.get('last_name'):
+        if not extra_fields.get("last_name"):
             raise ValueError(_("Last name must be set"))
 
-        if not extra_fields.get('gender'):
+        if not extra_fields.get("gender"):
             raise ValueError(_("gender must be set"))
 
         if not email:
