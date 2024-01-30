@@ -1,10 +1,7 @@
-name: dev CI_CD
+name: feature branch pipline
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - dev
   pull_request:
     branches:
       - dev
@@ -15,7 +12,7 @@ defaults:
     shell: bash
 
 jobs:
-  dev_pipline:
+  merge_request_to_dev_pipline:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout the repo
@@ -33,14 +30,12 @@ jobs:
 
       - name: check code format
         run: |
-          # stop the build if there are Python syntax errors or undefined names
-          flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
-          # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
-          flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+           # Stop the build if there are any issues detected by flake8
+           flake8 . --count --show-source --statistics --max-complexity=10 --max-line-length=127
 
-      - name: set up env file
-        run: cat env_files/.env.dev > .env
-  
+      - name: set up env file for tests
+        run: cat env_files/.env.local > .env
+
       - name: Docker Compose Up
         run: docker-compose up -d
 
