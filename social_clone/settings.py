@@ -25,6 +25,7 @@ LOCAL_APPS = [
 ]
 
 INSTALLED_APPS = [
+    "daphne",
     "jazzmin",
     "django.contrib.admin",
     "django.contrib.auth",

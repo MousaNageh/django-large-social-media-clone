@@ -26,10 +26,9 @@ services:
              python /app/manage.py makemigrations &&
              python /app/manage.py migrate &&
              python /app/manage.py init_admin &&
-             gunicorn social_clone.wsgi --threads 4 --timeout 240 --bind 0.0.0.0:6060  --reload --workers 3 --chdir /app/"
+             uvicorn social_clone.asgi:application --host 0.0.0.0 --port 6060 --workers 3"
     restart: always
-#    ports:
-#      - "${DOCKER_WEB_PORT}:6060"
+
     env_file:
       - .env
     depends_on:
@@ -37,6 +36,12 @@ services:
       - cache_redis
 
   cache_redis:
+    image: redis:alpine3.19
+    restart: always
+    depends_on:
+      - db
+
+  channels_redis:
     image: redis:alpine3.19
     restart: always
     depends_on:
