@@ -6,10 +6,17 @@ app_name=$1
 capitalized_app="$(tr '[:lower:]' '[:upper:]' <<< "${app_name:0:1}")${app_name:1}"
 
 
-django-admin startapp $app_name
+mkdir $app_name
+touch $app_name/__init__.py
+touch $app_name/apps.py
+cat > "$app_name/apps.py" << EOF
+from django.apps import AppConfig
 
-rm $app_name/admin.py $app_name/models.py $app_name/tests.py $app_name/views.py
 
+class ${capitalized_app}Config(AppConfig):
+    default_auto_field = "django.db.models.BigAutoField"
+    name = "${app_name}"
+EOF
 
 
 mkdir $app_name/admin
@@ -51,4 +58,11 @@ touch $app_name/serializers/__init__.py
 touch $app_name/serializers/${app_name}_serializers.py
 echo "from rest_framework import serializers" > $app_name/serializers/${app_name}_serializers.py
 
+mkdir $app_name/asgi_urls
+touch $app_name/asgi_urls/__init__.py
+touch $app_name/asgi_urls/${app_name}_asgi_urls.py
+
+mkdir $app_name/consumers
+touch $app_name/consumers/__init__.py
+touch $app_name/consumers/${app_name}_consumer.py
 
