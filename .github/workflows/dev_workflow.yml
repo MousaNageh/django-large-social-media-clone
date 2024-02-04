@@ -57,7 +57,9 @@ jobs:
             cd /home/social/social-media-clone
             cat env_files/.env.dev > .env 
             git checkout dev
-            git pull origin dev 
+            git pull origin dev
+            sudo chown -R social db_backup
+            sudo chgrp -R social db_backup
             docker compose down -v 
             docker compose up --build -d 
             docker image prune -f
