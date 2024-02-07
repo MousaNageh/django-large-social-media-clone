@@ -4,7 +4,11 @@ from django.contrib.auth.models import PermissionsMixin, AbstractBaseUser
 from user.manager.user_manager import UserManager
 from django.utils.translation import gettext_lazy as _
 import uuid
-from user.utilities import USER_GENDER_CHOICES, USER_REGISTER_TYPE_OPTIONS, USER_REGISTER_SYSTEM_TYPE
+from user.utilities import (
+    USER_GENDER_CHOICES,
+    USER_REGISTER_TYPE_OPTIONS,
+    USER_REGISTER_SYSTEM_TYPE,
+)
 
 
 class User(AbstractBaseUser, PermissionsMixin):
@@ -24,11 +28,13 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_active = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
 
-    registered_by = models.CharField(max_length=30, choices=USER_REGISTER_TYPE_OPTIONS,
-                                     default=USER_REGISTER_SYSTEM_TYPE)
+    registered_by = models.CharField(
+        max_length=30,
+        choices=USER_REGISTER_TYPE_OPTIONS,
+        default=USER_REGISTER_SYSTEM_TYPE,
+    )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-
 
     objects = UserManager()
 
@@ -38,6 +44,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         verbose_name = _("User")
         verbose_name_plural = _("Users")
         db_table = "users"
+
     def __str__(self) -> str:
         return f"{self.username}|| {self.email}"
 

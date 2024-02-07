@@ -21,7 +21,6 @@ class UserManager(BaseUserManager):
         if not email:
             raise ValueError(_("The Email must be set"))
 
-
         if not password:
             raise ValueError(_("The Password must be set"))
 
