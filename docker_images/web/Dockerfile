@@ -15,6 +15,8 @@ RUN apk add --update --no-cache \
     lcms2-dev \
     freetype-dev \
     libimagequant-dev \
+    geos-dev \
+    gdal-dev \
     bash && \
     apk add --update --no-cache --virtual .tmp-build-deps \
     gcc musl-dev \

@@ -16,6 +16,7 @@ CSRF_TRUSTED_ORIGINS = os.environ.get("CSRF_TRUSTED_ORIGINS", "*").split(",")
 THIRD_PARTY_APPS = [
     "rest_framework_simplejwt",
     "rest_framework",
+    "mapwidgets",
     "silk",
 ]
 
@@ -25,7 +26,7 @@ LOCAL_APPS = [
 ]
 
 INSTALLED_APPS = [
-    "daphne",
+    "channels",
     "jazzmin",
     "django.contrib.admin",
     "django.contrib.auth",
@@ -33,6 +34,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django.contrib.gis",
     *THIRD_PARTY_APPS,
     *LOCAL_APPS,
 ]
@@ -81,7 +83,7 @@ WSGI_APPLICATION = "social_clone.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.postgresql",
+        "ENGINE": "django.contrib.gis.db.backends.postgis",
         "NAME": os.environ.get("POSTGRES_DB"),
         "USER": os.environ.get("POSTGRES_USER"),
         "PASSWORD": os.environ.get("POSTGRES_PASSWORD"),
@@ -196,3 +198,15 @@ CHANNEL_LAYERS = {
     },
 }
 
+MAP_WIDGETS = {
+    "GooglePointFieldWidget": (
+        ("zoom", 15),
+        ("mapCenterLocationName", "cairo"),
+        ("GooglePlaceAutocompleteOptions", {'componentRestrictions': {'country': 'eg'}}),
+        ("markerFitZoom", 12),
+    ),
+    "GOOGLE_MAP_API_KEY": os.environ.get('GOOGLE_MAPS_API_KEY', '')
+}
+
+GDAL_LIBRARY_PATH = '/usr/lib/libgdal.so'
+GEOS_LIBRARY_PATH = '/usr/lib/libgeos_c.so'

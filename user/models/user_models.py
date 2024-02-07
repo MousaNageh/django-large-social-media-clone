@@ -1,9 +1,10 @@
 from django.db import models
+from django.contrib.gis.db import models as geo_models
 from django.contrib.auth.models import PermissionsMixin, AbstractBaseUser
 from user.manager.user_manager import UserManager
 from django.utils.translation import gettext_lazy as _
 import uuid
-from user.utilities import USER_GENDER_CHOICES
+from user.utilities import USER_GENDER_CHOICES, USER_REGISTER_TYPE_OPTIONS, USER_REGISTER_SYSTEM_TYPE
 
 
 class User(AbstractBaseUser, PermissionsMixin):
@@ -13,23 +14,32 @@ class User(AbstractBaseUser, PermissionsMixin):
     gender = models.CharField(max_length=20, choices=USER_GENDER_CHOICES)
     dob = models.DateField(null=True, blank=True)
     bio = models.TextField(null=True, blank=True)
+
     email = models.EmailField(max_length=70, unique=True)
+    username = models.CharField(max_length=70, unique=True)
+
+    coordinates = geo_models.PointField()
+    country_code = models.CharField(max_length=3)
+
     is_active = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
+
+    registered_by = models.CharField(max_length=30, choices=USER_REGISTER_TYPE_OPTIONS,
+                                     default=USER_REGISTER_SYSTEM_TYPE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
 
     objects = UserManager()
 
     USERNAME_FIELD = "email"
 
     class Meta:
-        verbose_name = _("Account")
-        verbose_name_plural = _("Accounts")
+        verbose_name = _("User")
+        verbose_name_plural = _("Users")
         db_table = "users"
-
     def __str__(self) -> str:
-        return self.email
+        return f"{self.username}|| {self.email}"
 
     def __repr__(self) -> str:
-        return self.email
+        return f"{self.username}|| {self.email}"

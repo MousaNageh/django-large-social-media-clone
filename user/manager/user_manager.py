@@ -12,11 +12,15 @@ class UserManager(BaseUserManager):
         if not extra_fields.get("last_name"):
             raise ValueError(_("Last name must be set"))
 
+        if not extra_fields.get("username"):
+            raise ValueError(_("username must be set"))
+
         if not extra_fields.get("gender"):
             raise ValueError(_("gender must be set"))
 
         if not email:
             raise ValueError(_("The Email must be set"))
+
 
         if not password:
             raise ValueError(_("The Password must be set"))
