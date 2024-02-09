@@ -1,6 +1,4 @@
 import random
-
-from django.contrib.auth.hashers import make_password
 from django.core.management.base import BaseCommand
 from user.utilities import (
     USER_MALE_GENDER,
@@ -79,7 +77,7 @@ class Command(BaseCommand):
             "coordinates": get_point_from_coordinates(
                 float(fake.longitude()), float(fake.latitude())
             ),
-            "password": make_password("Mousa@1234"),
+            "password": "pbkdf2_sha256$720000$OlwTSBko80eBCQ2TzrRhDS$d0UgAP/oNCJpvSxYVhTD6mf0sW5RvN8e0SZqVcIbCJo=",  # password 12345
             "is_active": True,
         }
 
