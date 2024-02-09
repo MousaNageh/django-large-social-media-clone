@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.db import models
 from django.utils.timezone import now
-
+from django.utils.translation import gettext_lazy as _
 from user.utilities import USER_OPT_DURATION
 
 
@@ -15,6 +15,11 @@ class OTP(models.Model):
     code = models.PositiveSmallIntegerField()
     durations = models.DurationField(default=USER_OPT_DURATION)
     created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = _('OPT')
+        verbose_name_plural = _('OPT')
+        db_table = 'opt'
 
     @property
     def is_expired(self):
