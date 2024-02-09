@@ -1,4 +1,5 @@
 from django.contrib.gis.geos import Point
+from datetime import timedelta
 
 USER_REGISTER_SYSTEM_TYPE = "system"
 USER_REGISTER_FACEBOOK_TYPE = "facebook"
@@ -18,6 +19,8 @@ USER_GENDER_CHOICES = [
     (USER_MALE_GENDER, USER_MALE_GENDER),
     (USER_FEMALE_GENDER, USER_FEMALE_GENDER),
 ]
+OPT_EXPIRE_TIME_IN_MINUTES = 10
+USER_OPT_DURATION = timedelta(minutes=OPT_EXPIRE_TIME_IN_MINUTES)
 
 
 def get_point_from_coordinates(lng, lat):
