@@ -1,0 +1,28 @@
+from user.models import OTP
+from random import randint
+
+
+class OPTQuerySet:
+
+    @classmethod
+    def create_or_replace_opt(cls, user_id):
+        code = cls.generate_code()
+        opt = OTP.objects.update_or_create(user_id=user_id, defaults={"code": code})
+        return opt
+
+    @staticmethod
+    def _is_code_expired(otp_instance=None, user_id=None):
+        if otp_instance:
+            return OTP.is_expired
+        if user_id:
+            return OTP.objects.get(user_id=user_id).is_expired
+        if not otp_instance and not user_id:
+            raise Exception(
+                "otp_instance or user_id are required (at least one of them)"
+            )
+
+    @staticmethod
+    def generate_code(code_len=6):
+        range_start = 10 ** (code_len - 1)
+        range_end = (10**code_len) - 1
+        return randint(range_start, range_end)
