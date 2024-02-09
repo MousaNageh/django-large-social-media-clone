@@ -167,7 +167,7 @@ JAZZMIN_SETTINGS = {
     "site_header": "Social Clone",
     "site_brand": "Clone Admin",
     "show_ui_builder": True,
-    "copyright": "Clone",
+    "copyright": "Social Clone",
     "icons": {
         "auth": "fas fa-users-cog",
         "auth.user": "fas fa-user",

@@ -3,7 +3,9 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
 
-api_urlpatterns = []
+api_urlpatterns = [
+    path("register/", include("user.urls.register_urls"))
+]
 
 urlpatterns = (
     [

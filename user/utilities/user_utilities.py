@@ -1,3 +1,5 @@
+from django.contrib.gis.geos import Point
+
 USER_REGISTER_SYSTEM_TYPE = "system"
 USER_REGISTER_FACEBOOK_TYPE = "facebook"
 USER_REGISTER_GOOGLE_TYPE = "google"
@@ -16,3 +18,7 @@ USER_GENDER_CHOICES = [
     (USER_MALE_GENDER, USER_MALE_GENDER),
     (USER_FEMALE_GENDER, USER_FEMALE_GENDER),
 ]
+
+
+def get_point_from_coordinates(lng, lat):
+    return Point(lng, lat, srid=4326)

@@ -21,7 +21,6 @@ class UserManager(BaseUserManager):
         if not email:
             raise ValueError(_("The Email must be set"))
 
-
         if not password:
             raise ValueError(_("The Password must be set"))
 
@@ -47,3 +46,7 @@ class UserManager(BaseUserManager):
             }
         )
         return self.create_user(email=email, password=password, **extra_fields)
+
+    def normalize_email(self, email):
+        email = super().normalize_email(email)
+        return email.lower()

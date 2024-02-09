@@ -58,6 +58,10 @@ touch $app_name/serializers/__init__.py
 touch $app_name/serializers/${app_name}_serializers.py
 echo "from rest_framework import serializers" > $app_name/serializers/${app_name}_serializers.py
 
+mkdir $app_name/urls
+touch $app_name/urls/__init__.py
+touch $app_name/urls/${app_name}_urls.py
+
 mkdir $app_name/asgi_urls
 touch $app_name/asgi_urls/__init__.py
 touch $app_name/asgi_urls/${app_name}_asgi_urls.py

@@ -12,3 +12,5 @@ channels[daphne]==4.0.0
 channels-redis==4.2.0
 pycountry==23.12.11
 django-map-widgets==0.4.2
+geoip2==4.8.0
+Faker==23.1.0
