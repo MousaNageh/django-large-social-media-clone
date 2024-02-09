@@ -39,6 +39,23 @@ services:
       - db
       - cache_redis
 
+  celery_works:
+      restart: always
+      build:
+        context: .
+        dockerfile: docker_images/web/Dockerfile
+      command: celery -A social_clone worker --loglevel=info -c 4
+      volumes:
+        - .:/app
+      env_file:
+        - .env
+      depends_on:
+        - web_app
+        - cache_redis
+        - db
+
+
+
   cache_redis:
     image: redis:alpine3.19
     restart: always

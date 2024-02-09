@@ -14,3 +14,8 @@ pycountry==23.12.11
 django-map-widgets==0.4.2
 geoip2==4.8.0
 Faker==23.1.0
+celery>=5.3.5,<5.3.6
+python-magic==0.4.27
+django-versatileimagefield==3.0
+django-phonenumber-field==7.0.2
+pillow==9.4.0

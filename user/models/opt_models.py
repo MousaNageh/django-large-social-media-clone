@@ -17,9 +17,9 @@ class OTP(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        verbose_name = _('OPT')
-        verbose_name_plural = _('OPT')
-        db_table = 'opt'
+        verbose_name = _("OPT")
+        verbose_name_plural = _("OPT")
+        db_table = "opt"
 
     @property
     def is_expired(self):

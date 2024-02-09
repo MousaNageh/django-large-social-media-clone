@@ -18,6 +18,7 @@ THIRD_PARTY_APPS = [
     "rest_framework",
     "mapwidgets",
     "silk",
+    "versatileimagefield",
 ]
 
 LOCAL_APPS = [
@@ -210,3 +211,40 @@ MAP_WIDGETS = {
 
 GDAL_LIBRARY_PATH = '/usr/lib/libgdal.so'
 GEOS_LIBRARY_PATH = '/usr/lib/libgeos_c.so'
+
+# 50mb
+DATA_UPLOAD_MAX_MEMORY_SIZE = 50000000
+
+CELERY_BROKER_URL = os.environ.get("CELERY_BROKER_URL")
+CELERY_RESULT_BACKEND = os.environ.get("CELERY_RESULT_BACKEND")
+
+
+EMAIL_HOST = os.environ.get("EMAIL_HOST")
+EMAIL_PORT = os.environ.get("EMAIL_PORT")
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
+
+
+VERSATILEIMAGEFIELD_RENDITION_KEY_SETS = {
+    "responsive": [
+        ("lg", "thumbnail__2048x1440"),
+        ("sm", "thumbnail__800x800"),
+    ]
+}
+
+VERSATILEIMAGEFIELD_SETTINGS = {
+
+    "cache_length": 2592000,
+    "cache_name": "versatileimagefield_cache",
+    "jpeg_resize_quality": 70,
+    "webp_resize_quality": 75,
+    "sized_directory_name": "__sized__",
+    "filtered_directory_name": "__filtered__",
+    "placeholder_directory_name": "__placeholder__",
+    "create_images_on_demand": True,
+    "image_key_post_processor": None,
+    "progressive_jpeg": False,
+}
+
+
