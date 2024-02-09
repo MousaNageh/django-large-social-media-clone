@@ -1,0 +1,33 @@
+from django.contrib.auth import get_user_model
+from django.db import models
+from django.utils.timezone import now
+
+from user.utilities import USER_OPT_DURATION
+
+
+class OTP(models.Model):
+    user = models.OneToOneField(
+        get_user_model(),
+        related_name="user_otp",
+        on_delete=models.CASCADE,
+        db_index=True,
+    )
+    code = models.PositiveSmallIntegerField()
+    durations = models.DurationField(default=USER_OPT_DURATION)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    @property
+    def is_expired(self):
+        return now() > self.created_at + self.durations
+
+    def save(
+        self, force_insert=False, force_update=False, using=None, update_fields=None
+    ):
+        if self.pk:
+            self.created_at = now()
+        return super().save(
+            force_insert=force_insert,
+            force_update=force_update,
+            using=using,
+            update_fields=update_fields,
+        )
