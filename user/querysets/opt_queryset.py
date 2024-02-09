@@ -5,13 +5,13 @@ from random import randint
 class OPTQuerySet:
 
     @classmethod
-    def create_or_replace_opt(cls, user_id):
+    def create_or_replace_otp(cls, user_id):
         code = cls.generate_code()
         opt = OTP.objects.update_or_create(user_id=user_id, defaults={"code": code})
         return opt
 
     @staticmethod
-    def _is_code_expired(otp_instance=None, user_id=None):
+    def is_code_expired(otp_instance=None, user_id=None):
         if otp_instance:
             return OTP.is_expired
         if user_id:
