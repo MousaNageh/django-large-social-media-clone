@@ -1,6 +1,9 @@
 from django.contrib.gis.geos import Point
 from datetime import timedelta
 
+from django.core.exceptions import ValidationError
+from django.core.validators import EmailValidator
+
 USER_REGISTER_SYSTEM_TYPE = "system"
 USER_REGISTER_FACEBOOK_TYPE = "facebook"
 USER_REGISTER_GOOGLE_TYPE = "google"
@@ -25,3 +28,12 @@ USER_OPT_DURATION = timedelta(minutes=OPT_EXPIRE_TIME_IN_MINUTES)
 
 def get_point_from_coordinates(lng, lat):
     return Point(lng, lat, srid=4326)
+
+
+def is_email(input_str):
+    validator = EmailValidator()
+    try:
+        validator(input_str)
+        return True
+    except ValidationError:
+        return False

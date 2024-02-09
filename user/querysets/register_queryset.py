@@ -1,5 +1,7 @@
 from django.contrib.auth import get_user_model
 
+from user.utilities import is_email
+
 
 class UserRegisterQueryset:
 
@@ -24,3 +26,20 @@ class UserRegisterQueryset:
     def create_user(data):
         user_model = get_user_model()
         return user_model.objects.create_user(**data)
+
+    @staticmethod
+    def get_user_by_email_or_username(email_or_username, values=["id", "email"]):
+        user_model = get_user_model()
+        input_is_email = is_email(email_or_username)
+        data_dict = (
+            {"email": email_or_username}
+            if input_is_email
+            else {"username": email_or_username}
+        )
+        try:
+            return (
+                user_model.objects.values(*values).get(**data_dict),
+                input_is_email,
+            )
+        except user_model.DoesNotExist:
+            return "", input_is_email

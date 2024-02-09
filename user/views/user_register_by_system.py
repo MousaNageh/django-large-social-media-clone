@@ -1,8 +1,12 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.status import HTTP_201_CREATED, HTTP_500_INTERNAL_SERVER_ERROR
+from rest_framework.status import (
+    HTTP_201_CREATED,
+    HTTP_500_INTERNAL_SERVER_ERROR
+)
 from user.serializers import RegisterBySystemSerializer
 from user.querysets.opt_queryset import OPTQuerySet
+from user.serializers.user_register_by_system_serializers import ResendOTPSerializer
 from user.tasks import send_register_email
 from django.db import transaction
 
@@ -15,12 +19,22 @@ class RegisterBySystem(APIView):
         try:
             with transaction.atomic():
                 user = serializer.save()
-                cls._send_opt(user)
+                cls._send_opt(user.id, user.email)
         except Exception as e:
             return Response(
                 {"server_error": str(e)}, status=HTTP_500_INTERNAL_SERVER_ERROR
             )
-        return Response({"email": user.email}, status=HTTP_201_CREATED)
+        return Response(
+            {"email": user.email, "username": user.username}, status=HTTP_201_CREATED
+        )
+
+    @classmethod
+    def put(cls, request):
+        serializer = ResendOTPSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = serializer.validated_data.get("user")
+        cls._send_opt(user.get("id"), user.get("email"))
+        return Response({"ok": f"an email has been send to {user.get('email')}"})
 
     @staticmethod
     def _serialize_register_request(request):
@@ -29,6 +43,6 @@ class RegisterBySystem(APIView):
         return serializer
 
     @staticmethod
-    def _send_opt(user):
-        opt = OPTQuerySet.create_or_replace_otp(user.id)
-        send_register_email.delay(opt.code, user.email)
+    def _send_opt(user_id, user_email):
+        opt = OPTQuerySet.create_or_replace_otp(user_id)
+        send_register_email.delay(opt.code, user_email)

@@ -97,3 +97,22 @@ class RegisterBySystemSerializer(serializers.Serializer):
 
         if errors:
             raise serializers.ValidationError({"password_not_strong": errors})
+
+
+class ResendOTPSerializer(serializers.Serializer):
+    username_or_email = serializers.CharField(max_length=70)
+
+    def validate(self, attrs):
+        username_or_email = attrs["username_or_email"]
+        user, is_email = UserRegisterQueryset.get_user_by_email_or_username(
+            username_or_email
+        )
+        error = (
+            f"user with email '{username_or_email}' not exists"
+            if is_email
+            else f"user with username '{username_or_email}' not exists"
+        )
+        if not user:
+            raise serializers.ValidationError({"user_not_exists": error})
+        attrs["user"] = user
+        return attrs

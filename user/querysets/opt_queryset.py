@@ -7,7 +7,9 @@ class OPTQuerySet:
     @classmethod
     def create_or_replace_otp(cls, user_id):
         code = cls.generate_code()
-        opt, created = OTP.objects.update_or_create(user_id=user_id, defaults={"code": code})
+        opt, created = OTP.objects.update_or_create(
+            user_id=user_id, defaults={"code": code}
+        )
         return opt
 
     @staticmethod
