@@ -12,7 +12,7 @@ class OTP(models.Model):
         on_delete=models.CASCADE,
         db_index=True,
     )
-    code = models.PositiveSmallIntegerField()
+    code = models.PositiveIntegerField()
     durations = models.DurationField(default=USER_OPT_DURATION)
     created_at = models.DateTimeField(auto_now_add=True)
 
