@@ -70,3 +70,6 @@ mkdir $app_name/consumers
 touch $app_name/consumers/__init__.py
 touch $app_name/consumers/${app_name}_consumer.py
 
+mkdir $app_name/swagger_docs
+touch $app_name/swagger_docs/__init__.py
+touch $app_name/swagger_docs/${app_name}_urls.py

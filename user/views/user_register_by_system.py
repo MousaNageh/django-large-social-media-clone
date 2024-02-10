@@ -1,12 +1,9 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.status import HTTP_201_CREATED, HTTP_500_INTERNAL_SERVER_ERROR
-from user.serializers import RegisterBySystemSerializer
+from user.serializers import RegisterBySystemSerializer, ResendOTPSerializer, VerifyEmailSerializer
 from user.querysets.otp_queryset import OTPQuerySet
-from user.serializers.user_register_by_system_serializers import (
-    ResendOTPSerializer,
-    VerifyEmailSerializer,
-)
+from user.swagger_docs.register_docs import create_user_docs, resend_user_otp_docs, active_user_docs
 from user.tasks import send_register_email
 from django.db import transaction
 
@@ -14,6 +11,7 @@ from django.db import transaction
 class RegisterBySystem(APIView):
 
     @classmethod
+    @create_user_docs()
     def post(cls, request):
         serializer = cls._serialize_register_request(request)
         try:
@@ -29,6 +27,7 @@ class RegisterBySystem(APIView):
         )
 
     @classmethod
+    @resend_user_otp_docs()
     def put(cls, request):
         serializer = ResendOTPSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -37,6 +36,7 @@ class RegisterBySystem(APIView):
         return Response({"ok": f"an email has been send to {user.get('email')}"})
 
     @classmethod
+    @active_user_docs()
     def patch(cls, request):
         serializer = VerifyEmailSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)

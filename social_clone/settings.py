@@ -19,6 +19,8 @@ THIRD_PARTY_APPS = [
     "mapwidgets",
     "silk",
     "versatileimagefield",
+    "psqlextra",
+    "drf_yasg",
 ]
 
 LOCAL_APPS = [
@@ -84,7 +86,7 @@ WSGI_APPLICATION = "social_clone.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.contrib.gis.db.backends.postgis",
+        "ENGINE": "psqlextra.backend",
         "NAME": os.environ.get("POSTGRES_DB"),
         "USER": os.environ.get("POSTGRES_USER"),
         "PASSWORD": os.environ.get("POSTGRES_PASSWORD"),
@@ -93,6 +95,7 @@ DATABASES = {
     }
 }
 
+POSTGRES_EXTRA_DB_BACKEND_BASE = "django.contrib.gis.db.backends.postgis"
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -186,7 +189,7 @@ APPEND_SLASH = True
 CACHES = {
     "default": {
         "BACKEND": "django.core.cache.backends.redis.RedisCache",
-        "LOCATION": os.environ.get('CACHE_HOST_URL'),
+        "LOCATION": os.environ.get("CACHE_HOST_URL"),
     }
 }
 
@@ -194,7 +197,12 @@ CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
         "CONFIG": {
-            "hosts": [(os.environ.get("CHANNEL_REDIS_HOST"), int(os.environ.get("CHANNEL_REDIS_PORT")))],
+            "hosts": [
+                (
+                    os.environ.get("CHANNEL_REDIS_HOST"),
+                    int(os.environ.get("CHANNEL_REDIS_PORT")),
+                )
+            ],
         },
     },
 }
@@ -203,14 +211,17 @@ MAP_WIDGETS = {
     "GooglePointFieldWidget": (
         ("zoom", 15),
         ("mapCenterLocationName", "cairo"),
-        ("GooglePlaceAutocompleteOptions", {'componentRestrictions': {'country': 'eg'}}),
+        (
+            "GooglePlaceAutocompleteOptions",
+            {"componentRestrictions": {"country": "eg"}},
+        ),
         ("markerFitZoom", 12),
     ),
-    "GOOGLE_MAP_API_KEY": os.environ.get('GOOGLE_MAPS_API_KEY', '')
+    "GOOGLE_MAP_API_KEY": os.environ.get("GOOGLE_MAPS_API_KEY", ""),
 }
 
-GDAL_LIBRARY_PATH = '/usr/lib/libgdal.so'
-GEOS_LIBRARY_PATH = '/usr/lib/libgeos_c.so'
+GDAL_LIBRARY_PATH = "/usr/lib/libgdal.so"
+GEOS_LIBRARY_PATH = "/usr/lib/libgeos_c.so"
 
 # 50mb
 DATA_UPLOAD_MAX_MEMORY_SIZE = 50000000
@@ -234,7 +245,6 @@ VERSATILEIMAGEFIELD_RENDITION_KEY_SETS = {
 }
 
 VERSATILEIMAGEFIELD_SETTINGS = {
-
     "cache_length": 2592000,
     "cache_name": "versatileimagefield_cache",
     "jpeg_resize_quality": 70,
@@ -246,5 +256,3 @@ VERSATILEIMAGEFIELD_SETTINGS = {
     "image_key_post_processor": None,
     "progressive_jpeg": False,
 }
-
-

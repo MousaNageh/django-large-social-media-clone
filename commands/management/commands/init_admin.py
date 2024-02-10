@@ -1,5 +1,6 @@
 from django.contrib.gis.geos import Point
 from django.core.management.base import BaseCommand
+from django.db import IntegrityError
 from django.utils.timezone import now
 from user.models import User
 from user.utilities import USER_MALE_GENDER
@@ -23,7 +24,8 @@ class Command(BaseCommand):
                 last_login=now(),
             )
             admin_email = admin.email
-
+        except IntegrityError as e:
+            print(e)
         except Exception as E:
             self.stdout.write(self.style.ERROR(f"{str(E)}"))
             return

@@ -8,7 +8,6 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "social_clone.settings")
 
 django_asgi_app = get_asgi_application()
 
-application = ProtocolTypeRouter({
-    "http": django_asgi_app,
-    "websocket": URLRouter(ws_urlpatterns)
-})
+application = ProtocolTypeRouter(
+    {"http": django_asgi_app, "websocket": URLRouter(ws_urlpatterns)}
+)
