@@ -9,8 +9,7 @@ class OTP(models.Model):
     user = models.OneToOneField(
         get_user_model(),
         related_name="user_otp",
-        on_delete=models.CASCADE,
-        db_index=True,
+        on_delete=models.CASCADE
     )
     code = models.PositiveIntegerField()
     durations = models.DurationField(default=USER_OPT_DURATION)
@@ -20,6 +19,9 @@ class OTP(models.Model):
         verbose_name = _('OPT')
         verbose_name_plural = _('OPT')
         db_table = 'opt'
+        indexes = [
+            models.Index(fields=["user_id", "code"], name="opt_user_id_code_idx")
+        ]
 
     @property
     def is_expired(self):
