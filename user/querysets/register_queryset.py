@@ -28,6 +28,12 @@ class UserRegisterQueryset:
         return user_model.objects.create_user(**data)
 
     @staticmethod
+    def activate_user(user_id):
+        return get_user_model().objects.filter(id=user_id).update(is_active=True)
+
+
+
+    @staticmethod
     def get_user_by_email_or_username(email_or_username, values=["id", "email"]):
         user_model = get_user_model()
         input_is_email = is_email(email_or_username)

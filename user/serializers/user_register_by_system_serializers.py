@@ -1,7 +1,7 @@
 from rest_framework import serializers
 import re
 import pycountry
-
+from user.querysets.opt_queryset import OTPQuerySet
 from user.querysets.register_queryset import UserRegisterQueryset
 from user.utilities.user_utilities import (
     USER_GENDER_CHOICES,
@@ -116,3 +116,22 @@ class ResendOTPSerializer(serializers.Serializer):
             raise serializers.ValidationError({"user_not_exists": error})
         attrs["user"] = user
         return attrs
+
+
+class VerifyEmailSerializer(ResendOTPSerializer):
+    code = serializers.IntegerField(min_value=100000, max_value=999999)
+
+    def validate(self, attrs):
+        attrs = super().validate(attrs)
+        code = attrs['code']
+        invalid, expired = OTPQuerySet.is_code_is_invalid_or_expired(user_id=attrs.get('user').get('id'), code=code)
+        if invalid:
+            raise serializers.ValidationError({"invalid_otp_code": f"code '{code}' is not valid"})
+        if expired:
+            raise serializers.ValidationError({"expired_otp_code": f"code '{code}' is expired"})
+        return attrs
+
+    def save(self, **kwargs):
+        UserRegisterQueryset.activate_user(self.validated_data.get("user").get("id"))
+        return self.validated_data.get("user")
+
