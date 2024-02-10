@@ -16,11 +16,11 @@ class OTP(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        verbose_name = _('OPT')
-        verbose_name_plural = _('OPT')
-        db_table = 'opt'
+        verbose_name = _('OTP')
+        verbose_name_plural = _('OTP')
+        db_table = 'otp'
         indexes = [
-            models.Index(fields=["user_id", "code"], name="opt_user_id_code_idx")
+            models.Index(fields=["user_id", "code"], name="otp_user_id_code_idx")
         ]
 
     @property

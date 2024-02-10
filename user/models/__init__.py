@@ -1,2 +1,2 @@
 from .user_models import User
-from .opt_models import OTP
+from .otp_models import OTP
