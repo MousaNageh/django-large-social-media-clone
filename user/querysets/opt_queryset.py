@@ -2,7 +2,7 @@ from user.models import OTP
 from random import randint
 
 
-class OPTQuerySet:
+class OTPQuerySet:
 
     @classmethod
     def create_or_replace_otp(cls, user_id):
@@ -23,6 +23,16 @@ class OPTQuerySet:
                 "otp_instance or user_id are required (at least one of them)"
             )
 
+    @staticmethod
+    def is_code_is_invalid_or_expired(user_id, code):
+        invalid = False
+        expired = False
+        try:
+            opt = OTP.objects.get(user_id=user_id, code=code)
+            expired = opt.is_expired
+        except OTP.DoesNotExist:
+            invalid = True
+        return invalid, expired
     @staticmethod
     def generate_code(code_len=6):
         range_start = 10 ** (code_len - 1)
