@@ -1,7 +1,7 @@
 from rest_framework import serializers
 import re
 import pycountry
-from user.querysets.opt_queryset import OTPQuerySet
+from user.querysets.otp_queryset import OTPQuerySet
 from user.querysets.register_queryset import UserRegisterQueryset
 from user.utilities.user_utilities import (
     USER_GENDER_CHOICES,
@@ -104,9 +104,15 @@ class ResendOTPSerializer(serializers.Serializer):
 
     def validate(self, attrs):
         username_or_email = attrs["username_or_email"]
-        user, is_email = UserRegisterQueryset.get_user_by_email_or_username(
-            username_or_email
-        )
+        user, is_email = UserRegisterQueryset.get_user_by_email_or_username(username_or_email,
+                                                                            ["id", "email", "is_active"])
+        if user.get("is_active"):
+            raise serializers.ValidationError(
+                {
+                    "user_already_activated": f"user with email '{user.get('email')} already activated'"
+                }
+            )
+
         error = (
             f"user with email '{username_or_email}' not exists"
             if is_email
@@ -124,6 +130,7 @@ class VerifyEmailSerializer(ResendOTPSerializer):
     def validate(self, attrs):
         attrs = super().validate(attrs)
         code = attrs['code']
+
         invalid, expired = OTPQuerySet.is_code_is_invalid_or_expired(user_id=attrs.get('user').get('id'), code=code)
         if invalid:
             raise serializers.ValidationError({"invalid_otp_code": f"code '{code}' is not valid"})
@@ -134,4 +141,3 @@ class VerifyEmailSerializer(ResendOTPSerializer):
     def save(self, **kwargs):
         UserRegisterQueryset.activate_user(self.validated_data.get("user").get("id"))
         return self.validated_data.get("user")
-

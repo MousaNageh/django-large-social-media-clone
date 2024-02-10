@@ -33,6 +33,7 @@ class OTPQuerySet:
         except OTP.DoesNotExist:
             invalid = True
         return invalid, expired
+
     @staticmethod
     def generate_code(code_len=6):
         range_start = 10 ** (code_len - 1)

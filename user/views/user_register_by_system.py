@@ -1,12 +1,12 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.status import (
-    HTTP_201_CREATED,
-    HTTP_500_INTERNAL_SERVER_ERROR
-)
+from rest_framework.status import HTTP_201_CREATED, HTTP_500_INTERNAL_SERVER_ERROR
 from user.serializers import RegisterBySystemSerializer
-from user.querysets.opt_queryset import OTPQuerySet
-from user.serializers.user_register_by_system_serializers import ResendOTPSerializer, VerifyEmailSerializer
+from user.querysets.otp_queryset import OTPQuerySet
+from user.serializers.user_register_by_system_serializers import (
+    ResendOTPSerializer,
+    VerifyEmailSerializer,
+)
 from user.tasks import send_register_email
 from django.db import transaction
 
@@ -41,9 +41,9 @@ class RegisterBySystem(APIView):
         serializer = VerifyEmailSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = serializer.save()
-        return Response({"user_activated": f"user with email '{user.get('email')}' now activated"})
-
-
+        return Response(
+            {"user_activated": f"user with email '{user.get('email')}' now activated"}
+        )
 
     @staticmethod
     def _serialize_register_request(request):
