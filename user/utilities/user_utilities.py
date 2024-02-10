@@ -25,6 +25,9 @@ USER_GENDER_CHOICES = [
 OPT_EXPIRE_TIME_IN_MINUTES = 10
 USER_OPT_DURATION = timedelta(minutes=OPT_EXPIRE_TIME_IN_MINUTES)
 
+PG_CREATE_PARTITION_FUNCTION = "user_activity_create_partition_if_not_exists"
+ACTIVITY_TABLE_NAME = "user_activities"
+
 
 def get_point_from_coordinates(lng, lat):
     return Point(lng, lat, srid=4326)

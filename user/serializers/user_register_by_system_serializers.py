@@ -104,8 +104,9 @@ class ResendOTPSerializer(serializers.Serializer):
 
     def validate(self, attrs):
         username_or_email = attrs["username_or_email"]
-        user, is_email = UserRegisterQueryset.get_user_by_email_or_username(username_or_email,
-                                                                            ["id", "email", "is_active"])
+        user, is_email = UserRegisterQueryset.get_user_by_email_or_username(
+            username_or_email, ["id", "email", "is_active"]
+        )
         if user.get("is_active"):
             raise serializers.ValidationError(
                 {
@@ -129,13 +130,19 @@ class VerifyEmailSerializer(ResendOTPSerializer):
 
     def validate(self, attrs):
         attrs = super().validate(attrs)
-        code = attrs['code']
+        code = attrs["code"]
 
-        invalid, expired = OTPQuerySet.is_code_is_invalid_or_expired(user_id=attrs.get('user').get('id'), code=code)
+        invalid, expired = OTPQuerySet.is_code_is_invalid_or_expired(
+            user_id=attrs.get("user").get("id"), code=code
+        )
         if invalid:
-            raise serializers.ValidationError({"invalid_otp_code": f"code '{code}' is not valid"})
+            raise serializers.ValidationError(
+                {"invalid_otp_code": f"code '{code}' is not valid"}
+            )
         if expired:
-            raise serializers.ValidationError({"expired_otp_code": f"code '{code}' is expired"})
+            raise serializers.ValidationError(
+                {"expired_otp_code": f"code '{code}' is expired"}
+            )
         return attrs
 
     def save(self, **kwargs):

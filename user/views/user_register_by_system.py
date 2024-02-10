@@ -1,9 +1,17 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.status import HTTP_201_CREATED, HTTP_500_INTERNAL_SERVER_ERROR
-from user.serializers import RegisterBySystemSerializer, ResendOTPSerializer, VerifyEmailSerializer
+from user.serializers import (
+    RegisterBySystemSerializer,
+    ResendOTPSerializer,
+    VerifyEmailSerializer,
+)
 from user.querysets.otp_queryset import OTPQuerySet
-from user.swagger_docs.register_docs import create_user_docs, resend_user_otp_docs, active_user_docs
+from user.swagger_docs.register_docs import (
+    create_user_docs,
+    resend_user_otp_docs,
+    active_user_docs,
+)
 from user.tasks import send_register_email
 from django.db import transaction
 

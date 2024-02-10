@@ -1,6 +1,10 @@
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
-from user.serializers import RegisterBySystemSerializer, ResendOTPSerializer, VerifyEmailSerializer
+from user.serializers import (
+    RegisterBySystemSerializer,
+    ResendOTPSerializer,
+    VerifyEmailSerializer,
+)
 
 
 def create_user_docs():
@@ -15,12 +19,12 @@ def create_user_docs():
                     type=openapi.TYPE_OBJECT,
                     properties={
                         # 'message': openapi.Schema(type=openapi.TYPE_STRING, description="Success message"),
-                        'email': openapi.Schema(type=openapi.TYPE_STRING),
-                        'username': openapi.Schema(type=openapi.TYPE_STRING)
-                    }
-                )
+                        "email": openapi.Schema(type=openapi.TYPE_STRING),
+                        "username": openapi.Schema(type=openapi.TYPE_STRING),
+                    },
+                ),
             ),
-            400: 'Bad Request'
+            400: "Bad Request",
         },
     )
 
@@ -36,11 +40,11 @@ def resend_user_otp_docs():
                 schema=openapi.Schema(
                     type=openapi.TYPE_OBJECT,
                     properties={
-                        'ok': openapi.Schema(type=openapi.TYPE_STRING),
-                    }
-                )
+                        "ok": openapi.Schema(type=openapi.TYPE_STRING),
+                    },
+                ),
             ),
-            400: 'Bad Request'
+            400: "Bad Request",
         },
     )
 
@@ -56,10 +60,10 @@ def active_user_docs():
                 schema=openapi.Schema(
                     type=openapi.TYPE_OBJECT,
                     properties={
-                        'user_activated': openapi.Schema(type=openapi.TYPE_STRING),
-                    }
-                )
+                        "user_activated": openapi.Schema(type=openapi.TYPE_STRING),
+                    },
+                ),
             ),
-            400: 'Bad Request'
+            400: "Bad Request",
         },
     )

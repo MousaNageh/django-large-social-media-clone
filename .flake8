@@ -1,4 +1,4 @@
 [flake8]
-exclude = migrations,settings.py,tests,__init__.py,venv,env
+exclude = migrations,settings.py,tests,__init__.py,venv,env,user_pg_functions.py
 max-line-length = 127
 ignore = E402,E501,W503
