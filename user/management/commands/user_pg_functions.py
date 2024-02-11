@@ -5,7 +5,7 @@ from user.utilities import PG_CREATE_PARTITION_FUNCTION, ACTIVITY_TABLE_NAME
 
 
 class Command(BaseCommand):
-    help = "create fake users"
+    help = "create  postgres function to automatically create user activity table partitions"
 
     def handle(self, *args, **options):
         with connection.cursor() as cursor:
