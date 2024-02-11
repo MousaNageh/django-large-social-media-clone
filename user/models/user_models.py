@@ -10,6 +10,7 @@ from user.utilities import (
     USER_GENDER_CHOICES,
     USER_REGISTER_TYPE_OPTIONS,
     USER_REGISTER_SYSTEM_TYPE,
+    USER_TABLE_NAME,
 )
 
 
@@ -53,7 +54,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     class Meta:
         verbose_name = _("User")
         verbose_name_plural = _("Users")
-        db_table = "users"
+        db_table = USER_TABLE_NAME
 
     def __str__(self) -> str:
         return f"{self.username} || {self.email}"

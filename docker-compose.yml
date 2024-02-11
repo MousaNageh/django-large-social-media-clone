@@ -47,7 +47,9 @@ services:
       build:
         context: .
         dockerfile: docker_images/web/Dockerfile
-      command: celery -A social_clone worker --loglevel=info -c 4
+      command: >
+        sh -c  "mkdir -p celery_logs && 
+                celery -A social_clone worker --loglevel=info -c 4 -f  celery_logs/celery_beat.log"
       volumes:
         - .:/app
       env_file:
@@ -57,7 +59,22 @@ services:
         - cache_redis
         - db
 
-
+  celery_beats:
+    restart: always
+    build:
+      context: .
+      dockerfile: docker_images/web/Dockerfile
+    command: >
+        sh -c  "mkdir -p celery_logs &&
+                celery -A social_clone beat --loglevel=info -f celery_logs/celery_beat.log"
+    volumes:
+      - .:/app
+    env_file:
+      - .env
+    depends_on:
+      - web_app
+      - cache_redis
+      - db
 
   cache_redis:
     image: redis:alpine3.19

@@ -2,6 +2,8 @@ import os
 from datetime import timedelta
 from pathlib import Path
 
+from social_clone.celery_beat_schedule import schedules_function
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
@@ -176,8 +178,9 @@ JAZZMIN_SETTINGS = {
         "auth": "fas fa-users-cog",
         "auth.user": "fas fa-user",
         "auth.group": "fas fa-users",
-        "User.User": "fas fa-user",
+        "user.User": "fas fa-user",
         "secret.Secret": "fas fa-user-secret",
+        "user.UserPerWeek": "fas fa-sort-numeric-up-alt"
     },
 }
 
@@ -256,3 +259,5 @@ VERSATILEIMAGEFIELD_SETTINGS = {
     "image_key_post_processor": None,
     "progressive_jpeg": False,
 }
+
+CELERY_BEAT_SCHEDULE = schedules_function

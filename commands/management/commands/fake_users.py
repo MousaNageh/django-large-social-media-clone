@@ -69,7 +69,7 @@ class Command(BaseCommand):
             "first_name": fake.first_name(),
             "last_name": fake.last_name(),
             "gender": random.choice([USER_MALE_GENDER, USER_FEMALE_GENDER]),
-            "country_code": random.choice(["US", "EG", "UE", "GB"]),
+            "country_code": random.choice(["US", "EG", "AF", "GB", "DZ", "AD"]),
             "dob": random_date.strftime("%Y-%m-%d"),
             "bio": fake.text(),
             "email": email,

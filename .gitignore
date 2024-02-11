@@ -1,6 +1,8 @@
 # Byte-compiled / optimized / DLL files
 db_backup
 db_backup/
+celery_logs
+celery_logs/
 __pycache__/
 __pycache__
 */__pycache__

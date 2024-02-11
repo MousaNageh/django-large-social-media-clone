@@ -10,7 +10,7 @@ from user.models import UserActivity
 
 
 class UserActivityInline(admin.StackedInline):
-    readonly_fields = ['created_at', 'country', 'user']
+    readonly_fields = ["created_at", "country", "user"]
     model = UserActivity
 
     @staticmethod

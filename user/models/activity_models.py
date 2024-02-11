@@ -46,4 +46,6 @@ class UserActivity(PostgresPartitionedModel):
 def create_partition_before_save(sender, instance, **kwargs):
     if not instance.pk:
         with connection.cursor() as cursor:
-            cursor.execute(f'SELECT {PG_CREATE_PARTITION_FUNCTION}(%s)', [instance.country_code])
+            cursor.execute(
+                f"SELECT {PG_CREATE_PARTITION_FUNCTION}(%s)", [instance.country_code]
+            )
