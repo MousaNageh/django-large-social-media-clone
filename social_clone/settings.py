@@ -180,7 +180,7 @@ JAZZMIN_SETTINGS = {
         "auth.group": "fas fa-users",
         "user.User": "fas fa-user",
         "secret.Secret": "fas fa-user-secret",
-        "user.UserPerWeek": "fas fa-sort-numeric-up-alt"
+        "user.UserPerWeek": "fas fa-sort-numeric-up-alt",
     },
 }
 
