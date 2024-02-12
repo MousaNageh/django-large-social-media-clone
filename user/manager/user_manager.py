@@ -2,7 +2,7 @@ import pycountry
 from django.contrib.auth.models import BaseUserManager
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
-
+from user.utilities import USER_MALE_GENDER, USER_FEMALE_GENDER
 
 class UserManager(BaseUserManager):
 
@@ -32,6 +32,9 @@ class UserManager(BaseUserManager):
         country = pycountry.countries.get(alpha_2=extra_fields.get("country_code"))
         if not country:
             raise ValidationError(_("not valid country code"))
+
+        if extra_fields.get("gender") not in [USER_MALE_GENDER, USER_FEMALE_GENDER]:
+            raise ValidationError(_("not valid gender"))
 
         email = self.normalize_email(email)
 

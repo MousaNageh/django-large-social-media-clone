@@ -67,6 +67,13 @@ class UserModelTests(TestCase):
         with self.assertRaises(ValueError):
             user_model.objects.create_user(**user_dict)
 
+    def test_missing_invalid_gender(self):
+        user_model = get_user_model()
+        user_dict = get_user_object()
+        user_dict["gender"] = "XX"
+        with self.assertRaises(ValidationError):
+            user_model.objects.create_user(**user_dict)
+
     def test_missing_country_code(self):
         user_model = get_user_model()
         user_dict = get_user_object()
