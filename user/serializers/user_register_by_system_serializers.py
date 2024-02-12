@@ -107,13 +107,6 @@ class ResendOTPSerializer(serializers.Serializer):
         user, is_email = UserRegisterQueryset.get_user_by_email_or_username(
             username_or_email, ["id", "email", "is_active"]
         )
-        if user.get("is_active"):
-            raise serializers.ValidationError(
-                {
-                    "user_already_activated": f"user with email '{user.get('email')} already activated'"
-                }
-            )
-
         error = (
             f"user with email '{username_or_email}' not exists"
             if is_email
@@ -121,6 +114,13 @@ class ResendOTPSerializer(serializers.Serializer):
         )
         if not user:
             raise serializers.ValidationError({"user_not_exists": error})
+
+        if user.get("is_active"):
+            raise serializers.ValidationError(
+                {
+                    "user_already_activated": f"user with email '{user.get('email')} already activated'"
+                }
+            )
         attrs["user"] = user
         return attrs
 

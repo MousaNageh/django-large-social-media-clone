@@ -4,6 +4,7 @@ from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 from user.utilities import USER_MALE_GENDER, USER_FEMALE_GENDER
 
+
 class UserManager(BaseUserManager):
 
     def create_user(self, email, password, **extra_fields):
