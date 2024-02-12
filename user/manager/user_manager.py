@@ -31,7 +31,7 @@ class UserManager(BaseUserManager):
 
         country = pycountry.countries.get(alpha_2=extra_fields.get("country_code"))
         if not country:
-            raise ValidationError(_(f"not valid country code"))
+            raise ValidationError(_("not valid country code"))
 
         email = self.normalize_email(email)
 

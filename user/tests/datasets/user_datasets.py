@@ -2,7 +2,11 @@ from datetime import datetime, timedelta
 from faker import Faker
 import random
 
-from user.utilities import get_point_from_coordinates, USER_MALE_GENDER, USER_FEMALE_GENDER
+from user.utilities import (
+    get_point_from_coordinates,
+    USER_MALE_GENDER,
+    USER_FEMALE_GENDER,
+)
 
 
 def get_user_object(is_active=True):
@@ -26,5 +30,5 @@ def get_user_object(is_active=True):
             float(fake.longitude()), float(fake.latitude())
         ),
         "password": fake.password(length=10, special_chars=True),
-        "is_active": is_active
+        "is_active": is_active,
     }
