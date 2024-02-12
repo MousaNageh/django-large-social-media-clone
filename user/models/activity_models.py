@@ -15,6 +15,7 @@ class UserActivity(PostgresPartitionedModel):
         get_user_model(), related_name="user_activities", on_delete=models.CASCADE
     )
     ip_address = models.GenericIPAddressField()
+    user_agent = models.TextField()
     country_code = models.CharField(max_length=2)
     created_at = models.DateTimeField(auto_now_add=True)
 

@@ -1,4 +1,6 @@
+import pycountry
 from django.contrib.auth.models import BaseUserManager
+from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 
 
@@ -23,6 +25,13 @@ class UserManager(BaseUserManager):
 
         if not password:
             raise ValueError(_("The Password must be set"))
+
+        if not extra_fields.get("country_code"):
+            raise ValueError(_("The country code must be set"))
+
+        country = pycountry.countries.get(alpha_2=extra_fields.get("country_code"))
+        if not country:
+            raise ValidationError(_(f"not valid country code"))
 
         email = self.normalize_email(email)
 
