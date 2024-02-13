@@ -44,8 +44,8 @@ jobs:
 
       - name: Run tests
         run: |
-          
           docker exec social_clone_app python manage.py test_db_connection
-          docker exec social_clone_app python python manage.py showmigrations
+          docker exec social_clone_app python python manage.py makemigrations
+          docker exec social_clone_app python python manage.py migrate
           docker exec social_clone_app python manage.py test
         
