@@ -32,6 +32,3 @@ def get_user_object(is_active=True):
         "password": fake.password(length=10, special_chars=True),
         "is_active": is_active,
     }
-
-
-

@@ -28,11 +28,15 @@ class OTPModelTestCase(TestCase):
         self.assertTrue(100000 <= otp.code <= 999999)
 
     def test_otp_is_expired_property_false(self):
-        otp = OTP.objects.create(user=self.user, code=123456, durations=timedelta(minutes=10))
+        otp = OTP.objects.create(
+            user=self.user, code=123456, durations=timedelta(minutes=10)
+        )
         self.assertFalse(otp.is_expired)
 
     def test_otp_is_expired_property_true(self):
-        otp = OTP.objects.create(user=self.user, code=123456, durations=timedelta(minutes=-5))
+        otp = OTP.objects.create(
+            user=self.user, code=123456, durations=timedelta(minutes=-5)
+        )
         self.assertTrue(otp.is_expired)
 
     def test_custom_save_method_updates_created_at(self):

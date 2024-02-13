@@ -1,7 +1,9 @@
 from django.contrib.auth import get_user_model
 from django.test import TestCase
 from user.serializers import RegisterBySystemSerializer
-from user.tests.datasets.serializers_datasets import get_register_by_system_serializer_data
+from user.tests.datasets.serializers_datasets import (
+    get_register_by_system_serializer_data,
+)
 from user.tests.datasets.serializers_datasets import get_user_object
 
 
@@ -17,51 +19,47 @@ class RegisterBySystemSerializerTest(TestCase):
 
     def test_weak_password(self):
         data = {**self.valid_data}
-        data['password'] = data['confirm_password'] = 'XXXXXXXXXXXXX'
+        data["password"] = data["confirm_password"] = "XXXXXXXXXXXXX"
         serializer = RegisterBySystemSerializer(data=data)
         self.assertFalse(serializer.is_valid())
-        self.assertIn('password_not_strong', serializer.errors)
+        self.assertIn("password_not_strong", serializer.errors)
 
     def test_password_and_confirm_password_mismatch(self):
         data = {**self.valid_data}
-        data['confirm_password'] = 'XXXXXXXXXXXXX'
+        data["confirm_password"] = "XXXXXXXXXXXXX"
         serializer = RegisterBySystemSerializer(data=data)
         self.assertFalse(serializer.is_valid())
-        self.assertIn('password_and_confirm_password_mismatch', serializer.errors)
+        self.assertIn("password_and_confirm_password_mismatch", serializer.errors)
 
     def test_invalid_email_format(self):
-        serializer = RegisterBySystemSerializer(data={
-            **self.valid_data,
-            'email': 'invalid_email'
-        })
+        serializer = RegisterBySystemSerializer(
+            data={**self.valid_data, "email": "invalid_email"}
+        )
         self.assertFalse(serializer.is_valid())
-        self.assertIn('email', serializer.errors)
+        self.assertIn("email", serializer.errors)
 
     def test_existing_email(self):
         user = self._create_user()
-        serializer = RegisterBySystemSerializer(data={
-            **self.valid_data,
-            'email': user.email
-        })
+        serializer = RegisterBySystemSerializer(
+            data={**self.valid_data, "email": user.email}
+        )
         self.assertFalse(serializer.is_valid())
-        self.assertIn('email_exists', serializer.errors)
+        self.assertIn("email_exists", serializer.errors)
 
     def test_existing_username(self):
         user = self._create_user()
-        serializer = RegisterBySystemSerializer(data={
-            **self.valid_data,
-            'username': user.username
-        })
+        serializer = RegisterBySystemSerializer(
+            data={**self.valid_data, "username": user.username}
+        )
         self.assertFalse(serializer.is_valid())
-        self.assertIn('username_exists', serializer.errors)
+        self.assertIn("username_exists", serializer.errors)
 
     def test_invalid_gender(self):
-        serializer = RegisterBySystemSerializer(data={
-            **self.valid_data,
-            'gender': 'invalid_gender'
-        })
+        serializer = RegisterBySystemSerializer(
+            data={**self.valid_data, "gender": "invalid_gender"}
+        )
         self.assertFalse(serializer.is_valid())
-        self.assertIn('gender', serializer.errors)
+        self.assertIn("gender", serializer.errors)
 
     def test_date_of_birth_allows_null(self):
         data = {
@@ -105,22 +103,23 @@ class RegisterBySystemSerializerTest(TestCase):
         self.assertTrue(serializer.is_valid(), serializer.errors)
         user = serializer.save()
         self.assertIsNotNone(user.coordinates)
-        self.assertEqual(user.coordinates.x, self.valid_data['lng'])
-        self.assertEqual(user.coordinates.y, self.valid_data['lat'])
+        self.assertEqual(user.coordinates.x, self.valid_data["lng"])
+        self.assertEqual(user.coordinates.y, self.valid_data["lat"])
 
     def test_serializer_save(self):
         serializer = RegisterBySystemSerializer(data=self.valid_data)
         self.assertTrue(serializer.is_valid(), serializer.errors)
         user = serializer.save()
-        self.assertEqual(user.email, self.valid_data['email'])
-        self.assertEqual(user.username, self.valid_data['username'])
-        self.assertEqual(user.first_name, self.valid_data['first_name'])
-        self.assertEqual(user.last_name, self.valid_data['last_name'])
-        self.assertEqual(user.gender, self.valid_data['gender'])
-        self.assertEqual(user.country_code, self.valid_data['country_code'])
-        self.assertEqual(user.bio, self.valid_data['bio'])
-        self.assertEqual(user.dob.strftime('%Y-%m-%d'), self.valid_data['dob'])
+        self.assertEqual(user.email, self.valid_data["email"])
+        self.assertEqual(user.username, self.valid_data["username"])
+        self.assertEqual(user.first_name, self.valid_data["first_name"])
+        self.assertEqual(user.last_name, self.valid_data["last_name"])
+        self.assertEqual(user.gender, self.valid_data["gender"])
+        self.assertEqual(user.country_code, self.valid_data["country_code"])
+        self.assertEqual(user.bio, self.valid_data["bio"])
+        self.assertEqual(user.dob.strftime("%Y-%m-%d"), self.valid_data["dob"])
         self.assertEqual(user.is_active, False)
+
     def _create_user(self):
         user_data = get_user_object()
         user_model = get_user_model()
