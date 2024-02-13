@@ -1,6 +1,5 @@
 from geoip2.database import Reader
 
-from user.utilities.ip_utilities import UserIpUtility
 
 class UserIpUtility:
 
