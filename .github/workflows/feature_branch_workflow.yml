@@ -43,4 +43,7 @@ jobs:
         run: docker-compose up -d
 
       - name: Run tests
-        run: docker exec social_clone_app python manage.py test
+        run: |
+          docker exec -it social_clone_app python manage.py test_db_connection
+          docker exec -it social_clone_app python manage.py test
+        
