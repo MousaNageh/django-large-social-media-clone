@@ -41,8 +41,8 @@ jobs:
 
       - name: Run tests
         run: |
-          docker exec -it social_clone_app python manage.py test_db_connection
-          docker exec -it social_clone_app python manage.py test
+          docker exec social_clone_app python manage.py test_db_connection
+          docker exec social_clone_app python manage.py test
 
   deploy_to_dev_server:
     runs-on: ubuntu-latest
