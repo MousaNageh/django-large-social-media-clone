@@ -1,11 +1,12 @@
 from geoip2.database import Reader
 
+from user.utilities.ip_utilities import UserIpUtility
 
 class UserIpUtility:
 
     @staticmethod
     def get_client_ip(request):
-        real_ip = request.META.get("X-Forwarded-For")
+        real_ip = request.META.get("HTTP_X_FORWARDED_FOR")
         if real_ip:
             ip = real_ip.split(",")[
                 0
