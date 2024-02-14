@@ -74,7 +74,9 @@ class RegisterBySystemSerializer(serializers.Serializer):
     def _validate_password(password, confirm_password):
         if password != confirm_password:
             raise serializers.ValidationError(
-                {"password_and_confirm_password_mismatch": "password and confirm password not the same"}
+                {
+                    "password_and_confirm_password_mismatch": "password and confirm password not the same"
+                }
             )
 
     @staticmethod

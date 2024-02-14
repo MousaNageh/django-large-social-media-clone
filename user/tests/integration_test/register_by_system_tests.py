@@ -74,7 +74,9 @@ class RegisterBySystemIntegrationTestCase(APITestCase):
             self.user_model.objects.get(username=created_username).is_active
         )
 
-    def test_full_user_creation_and_activation_with_username_and_with_invalid_code(self):
+    def test_full_user_creation_and_activation_with_username_and_with_invalid_code(
+        self,
+    ):
         response = self.client.post(self.url, self.register_data)
         created_username = response.json().get("username")
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
@@ -180,15 +182,16 @@ class RegisterBySystemIntegrationTestCase(APITestCase):
         user = self.user_model.objects.get(email=email)
         user.is_active = True
         user.save()
-        activation_data = {"username_or_email": email, "code": self._get_otp_by_email(email).code}
+        activation_data = {
+            "username_or_email": email,
+            "code": self._get_otp_by_email(email).code,
+        }
         activation_response = self.client.patch(self.url, activation_data)
         self.assertEqual(activation_response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertIn("user_already_activated", activation_response.json())
 
     def _send_resend_code_request(self, username_or_email):
-        return self.client.put(
-            self.url, {"username_or_email": username_or_email}
-        )
+        return self.client.put(self.url, {"username_or_email": username_or_email})
 
     @staticmethod
     def _change_otp_code(otp):

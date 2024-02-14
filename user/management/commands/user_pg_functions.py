@@ -19,9 +19,10 @@ class Command(BaseCommand):
         DECLARE
             partition_name TEXT;
         BEGIN
-            partition_name := 'user_activity_' || p_country_code;
+            partition_name := 'user_activities_' || p_country_code;
+            IF partition_name = 'user_activities_' THEN partition_name := 'user_activities_default'; END IF;
             IF NOT EXISTS(SELECT 1 FROM pg_class WHERE relname = partition_name) THEN
-                EXECUTE FORMAT('CREATE TABLE %I PARTITION OF {ACTIVITY_TABLE_NAME} FOR VALUES IN (%L)', 
+                EXECUTE FORMAT('CREATE TABL E %I PARTITION OF {ACTIVITY_TABLE_NAME} FOR VALUES IN (%L)', 
                 partition_name, p_country_code);
             END IF;
             RETURN;

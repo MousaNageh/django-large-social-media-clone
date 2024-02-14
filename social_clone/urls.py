@@ -20,7 +20,10 @@ schema_view = get_schema_view(
 )
 
 
-api_urlpatterns = [path("register/", include("user.urls.register_urls"))]
+api_urlpatterns = [
+    path("register/", include("user.urls.register_urls")),
+    path("login/", include("user.urls.login_urls"))
+]
 
 urlpatterns = (
     [
