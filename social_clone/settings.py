@@ -261,3 +261,26 @@ VERSATILEIMAGEFIELD_SETTINGS = {
 }
 
 CELERY_BEAT_SCHEDULE = schedules_function
+
+SWAGGER_SETTINGS = {
+    'LOGIN_URL': 'api/login',
+    'USE_SESSION_AUTH': False,
+    'DOC_EXPANSION': 'list',
+    'APIS_SORTER': 'alpha',
+    'JSON_EDITOR': True,
+    'api_version': '0.1',
+    'SUPPORTED_SUBMIT_METHODS': [
+        'get',
+        'post',
+        'put',
+        'patch',
+        'delete'
+    ],
+    'SECURITY_DEFINITIONS': {
+        'Bearer': {
+            'type': 'apiKey',
+            'name': 'Authorization',
+            'in': 'header'
+        }
+    },
+}
