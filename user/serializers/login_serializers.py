@@ -10,6 +10,7 @@ class LoginSerializer(serializers.Serializer):
         attr["user"] = self._validate_username_or_email(attr.get("username_or_email"))
         self._validate_password_match(attr["user"], attr.get("password"))
         self._validate_user_is_active(attr["user"])
+        self._validate_user_agent(self.context.get("request"))
         return attr
 
     @staticmethod
@@ -44,6 +45,14 @@ class LoginSerializer(serializers.Serializer):
             raise serializers.ValidationError(
                 {
                     "user_not_verified": "user with this credentials is not verified"
+                }
+            )
+    @staticmethod
+    def _validate_user_agent(request):
+        if not request.META.get('HTTP_USER_AGENT'):
+            raise serializers.ValidationError(
+                {
+                    "not_allowed": "you are not allowed to login"
                 }
             )
 
