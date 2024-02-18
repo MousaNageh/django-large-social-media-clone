@@ -1,1 +1,2 @@
 from .register_by_system_tests import RegisterBySystemIntegrationTestCase
+from .login_tests import LoginAPIViewTestCase
