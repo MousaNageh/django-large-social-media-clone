@@ -12,6 +12,7 @@ from user.utilities import (
     USER_REGISTER_SYSTEM_TYPE,
     USER_TABLE_NAME,
 )
+from user.utilities.crypto_utilities import CryptoUtilities
 
 
 class User(AbstractBaseUser, PermissionsMixin):
@@ -41,9 +42,21 @@ class User(AbstractBaseUser, PermissionsMixin):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    _crypto_token = models.TextField(default="", editable=False)
+    two_factor_auth_enabled = models.BooleanField(default=False)
+
     objects = UserManager()
 
     USERNAME_FIELD = "email"
+
+    def save(self, *args, **kwargs):
+        if not self._crypto_token:
+            self._crypto_token = CryptoUtilities.generate_encrypted_key()
+        return super().save(*args, **kwargs)
+
+    @property
+    def crypto_key(self):
+        return CryptoUtilities.decrypt(cipher=self._crypto_token)
 
     def clean(self):
         country = pycountry.countries.get(alpha_2=self.country_code)

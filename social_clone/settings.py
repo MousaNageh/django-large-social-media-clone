@@ -23,6 +23,7 @@ THIRD_PARTY_APPS = [
     "versatileimagefield",
     "psqlextra",
     "drf_yasg",
+    "phonenumber_field",
 ]
 
 LOCAL_APPS = [

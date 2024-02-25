@@ -8,6 +8,7 @@ from user.utilities import (
     USER_MALE_GENDER,
     USER_REGISTER_FACEBOOK_TYPE,
     get_point_from_coordinates,
+    DEFAULT_EMAIL_DOMAIN,
 )
 import requests
 from faker import Faker
@@ -75,7 +76,7 @@ class RegisterByFacebookSerializer(serializers.Serializer):
             "coordinates": get_point_from_coordinates(attrs["lng"], attrs["lat"]),
             "country_code": attrs["country_code"],
             "password": Faker().password(length=60, special_chars=True),
-            "is_active": True
+            "is_active": True,
         }
         self._handle_missing_fields(attrs, facebook_response)
 
@@ -99,7 +100,7 @@ class RegisterByFacebookSerializer(serializers.Serializer):
         email = (
             facebook_response.get("email")
             if facebook_response.get("email")
-            else facebook_response.get("id") + "@social.com"
+            else facebook_response.get("id") + DEFAULT_EMAIL_DOMAIN
         )
         return email
 

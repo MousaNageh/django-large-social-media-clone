@@ -15,8 +15,12 @@ def login_docs():
                 schema=openapi.Schema(
                     type=openapi.TYPE_OBJECT,
                     properties={
-                        "refresh": openapi.Schema(type=openapi.TYPE_STRING, description="access token"),
-                        "access": openapi.Schema(type=openapi.TYPE_STRING, description="refresh token"),
+                        "refresh": openapi.Schema(
+                            type=openapi.TYPE_STRING, description="access token"
+                        ),
+                        "access": openapi.Schema(
+                            type=openapi.TYPE_STRING, description="refresh token"
+                        ),
                     },
                 ),
             ),

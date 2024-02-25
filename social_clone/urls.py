@@ -7,6 +7,7 @@ from django.urls import include, path
 api_urlpatterns = [
     path("register/", include("user.urls.register_urls")),
     path("login/", include("user.urls.login_urls")),
+    path("2fa/", include("user.urls.two_factor_auth_urls")),
 ]
 
 urlpatterns = (

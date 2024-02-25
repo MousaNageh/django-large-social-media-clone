@@ -42,7 +42,9 @@ class RegisterByGoogleSerializer(serializers.Serializer):
 
     @staticmethod
     def _validate_token(attrs):
-        google_url = "https://oauth2.googleapis.com/tokeninfo?id_token=" + attrs.get('token')
+        google_url = "https://oauth2.googleapis.com/tokeninfo?id_token=" + attrs.get(
+            "token"
+        )
         response = requests.get(google_url)
         if response.status_code == HTTP_200_OK:
             return response.json()
@@ -67,7 +69,7 @@ class RegisterByGoogleSerializer(serializers.Serializer):
             "coordinates": get_point_from_coordinates(attrs["lng"], attrs["lat"]),
             "country_code": attrs["country_code"],
             "password": Faker().password(length=60, special_chars=True),
-            "is_active": True
+            "is_active": True,
         }
         self._handle_missing_fields(attrs, google_response)
 

@@ -1,6 +1,8 @@
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
-from user.serializers.register_by_facebook_serializers import RegisterByFacebookSerializer
+from user.serializers.register_by_facebook_serializers import (
+    RegisterByFacebookSerializer,
+)
 
 
 def register_by_facebook_docs():

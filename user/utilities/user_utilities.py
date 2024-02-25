@@ -31,6 +31,8 @@ USER_TABLE_NAME = "users"
 
 PG_USER_PER_WEEK_MATERIALIZED_VIEW_NAME = "user_per_week_m_view"
 
+DEFAULT_EMAIL_DOMAIN = "@socialclone.com"
+
 
 def get_point_from_coordinates(lng, lat):
     return Point(lng, lat, srid=4326)

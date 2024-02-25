@@ -57,7 +57,4 @@ class LoginQueryset:
                 value = str(value)
             token[field] = value
 
-        return {
-            "refresh": str(token),
-            "access": str(token.access_token)
-        }
+        return {"refresh": str(token), "access": str(token.access_token)}
