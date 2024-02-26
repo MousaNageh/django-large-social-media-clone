@@ -49,7 +49,9 @@ class LoginQueryset:
         return user
 
     @staticmethod
-    def get_token_for_user(user, extra_fields=["id", "email", "username"]):
+    def get_token_for_user(user, extra_fields=None):
+        if not extra_fields:
+            extra_fields = ["id", "email", "username"]
         token = RefreshToken.for_user(user)
         for field in extra_fields:
             value = getattr(user, field)
