@@ -20,11 +20,13 @@ class TwoFactorAuthenticationByEmail(models.Model):
     def clean(self):
         if not self.use_current_email and not self.email:
             raise ValidationError(
-                _("email can not be empty with no selection for 'use current email'")
+                _("email can not be empty with no selection for 'use current email")
             )
 
     class Meta:
         unique_together = [("user", "email")]
+        verbose_name = _("email two factor auth")
+        verbose_name_plural = _("email two factor auth")
 
     def __str__(self):
         return str(self.email)

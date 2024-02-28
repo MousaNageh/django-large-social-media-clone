@@ -42,7 +42,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    _crypto_token = models.TextField(default="", editable=False)
+    _crypto_token = models.TextField(editable=False, null=True, blank=True)
     two_factor_auth_enabled = models.BooleanField(default=False)
 
     objects = UserManager()

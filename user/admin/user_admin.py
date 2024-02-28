@@ -6,7 +6,11 @@ from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.utils.translation import gettext_lazy as _
 from mapwidgets import GooglePointFieldWidget
 
-from user.models import UserActivity
+from user.models import UserActivity, TwoFactorAuthenticationByEmail
+
+
+class TwoFactorAuthenticationByEmailInline(admin.StackedInline):
+    model = TwoFactorAuthenticationByEmail
 
 
 class UserActivityInline(admin.StackedInline):
@@ -30,7 +34,7 @@ class UserActivityInline(admin.StackedInline):
 
 @admin.register(get_user_model())
 class UserAdmin(BaseUserAdmin):
-    inlines = [UserActivityInline]
+    inlines = [UserActivityInline, TwoFactorAuthenticationByEmailInline]
     formfield_overrides = {PointField: {"widget": GooglePointFieldWidget}}
     ordering = ["-created_at"]
     date_hierarchy = "created_at"
