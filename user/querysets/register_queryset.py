@@ -32,7 +32,9 @@ class UserRegisterQueryset:
         return get_user_model().objects.filter(id=user_id).update(is_active=True)
 
     @staticmethod
-    def get_user_by_email_or_username(email_or_username, values=["id", "email"]):
+    def get_user_by_email_or_username(email_or_username, values=None):
+        if not values:
+          values = ["id", "email"]  
         user_model = get_user_model()
         input_is_email = is_email(email_or_username)
         data_dict = (
