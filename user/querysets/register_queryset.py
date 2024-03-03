@@ -1,5 +1,5 @@
 from django.contrib.auth import get_user_model
-
+from user.caches.user_register_caches import UserRegisterCaches
 from user.utilities import is_email
 
 
@@ -34,7 +34,7 @@ class UserRegisterQueryset:
     @staticmethod
     def get_user_by_email_or_username(email_or_username, values=None):
         if not values:
-          values = ["id", "email"]  
+            values = ["id", "email"]
         user_model = get_user_model()
         input_is_email = is_email(email_or_username)
         data_dict = (
