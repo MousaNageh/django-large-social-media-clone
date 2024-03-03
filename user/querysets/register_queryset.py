@@ -15,9 +15,14 @@ class UserRegisterQueryset:
 
     @staticmethod
     def _is_field_exits(field_dict):
+        first_key = list(field_dict.values())[0]
+        cached_user = UserRegisterCaches.get_cache(first_key)
+        if cached_user:
+            return True
         user_model = get_user_model()
         try:
             user_model.objects.values(*list(field_dict.keys())).get(**field_dict)
+            UserRegisterCaches.set_cache(first_key)
             return True
         except user_model.DoesNotExist:
             return False
@@ -25,6 +30,8 @@ class UserRegisterQueryset:
     @staticmethod
     def create_user(data):
         user_model = get_user_model()
+        UserRegisterCaches.get_or_set(data.get("email"))
+        UserRegisterCaches.get_or_set(data.get("username"))
         return user_model.objects.create_user(**data)
 
     @staticmethod
